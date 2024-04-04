@@ -32,3 +32,39 @@ void main() {
     delete[] B;
     delete[] C;
 }
+#include <iostream>
+using namespace std;
+// matrix in 2D
+
+int main() {
+    int N = 2, M = 2;
+    float A[2][2] = { {0, 1}, {10, 100} },** B, ** C;
+    B = new float* [N];
+    for (int n = 0; n < N; n++) B[n] = new float[M];
+    C = new float* [N];
+    for (int n = 0; n < N; n++) C[n] = new float[M];
+    B[0][0] = 7; B[0][1] = 4; 
+    B[1][0] = 1; B[1][1] = 9; 
+    // C = A * B
+    for (int n = 0; n < N; n++) {
+        for (int m = 0; m < M; m++) {
+            C[n][m] = 0; 
+            for (int k = 0; k < M; k++) {
+                C[n][m] += A[n][k] * B[k][m];
+            }
+        }
+    }
+
+    // show results
+    for (int n = 0; n < N; n++) {
+        for (int m = 0; m < M; m++) {
+            cout << C[n][m] << "  ";
+        }
+        cout << endl;
+    }
+
+    for (int n = 0; n < N; n++) { delete[] B[n]; delete C[n]; }
+    delete[] B;
+    delete[] C;
+
+}
