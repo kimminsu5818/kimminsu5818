@@ -1,0 +1,72 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+float getfrequency(char hh) { //주파수 반환 함수
+if (hh == 'C') return 261;
+else if (hh == 'D') return 294.0;
+else if (hh == 'E') return 330.0;
+else if (hh == 'F') return 349.0;
+else if (hh == 'G') return 392.0;
+else if (hh == 'A') return 440.0;
+else if (hh == 'B') return 494.0;
+else return 0.0;
+}
+
+float getAmplitude(int ss) { //진폭, 음량 조절
+int my_A = 0;
+my_A = ss * 1000; //음량 키우기
+return static_cast<float>(my_A);
+}
+
+float getLength(int eu) {
+float T = 1.0;
+if (eu == 4) T = 1.0; //4분음표를 1초로 기준으로 나눔
+else if (eu == 8) T = 0.5; //8분 음표
+else if (eu == 16) T = 0.25; //16분 음표
+else if (eu == 2) T = 2.0; //2분 음표
+return T;
+}
+int main() {
+ifstream xx("my.wav", ios::binary | ios::in);
+if (!xx) return 111;
+char header[44];
+//sprint1
+xx.read(header, 44);
+int* sampleRate = (int*)(header + 24);
+short* n;n = (short*)(header + 22);
+int* fs;fs = (int*)(header + 24);
+int* b;b = (int*)(header + 28);
+//sprint3
+int N = fs[0] * 10;
+//ifstream zz("piece.txt");
+const float pi = 3.141592;
+int eu, ss, k;
+cin >> k; //음표수 받기
+short* data;
+data = new short[N]; //저장 가능한 공간
+char hh;
+
+ofstream yy("my3.wav", ios::binary | ios::out);
+if (!yy) return 222;
+//sprint4
+yy.write(header, 44 * sizeof(char));
+float dt = 1.0 / fs[0];
+for (int i = 0; i < k; i++) {
+cin >> eu >> hh >> ss;
+float f, a, T;
+f = getfrequency(hh); //주파수 받기
+a = getAmplitude(ss); //음량 정하기
+T = getLength(eu); //박자 정하기
+int nnn = fs[0] * T;
+float t = 0.0;
+for (int n = 0; n < nnn; n++, t += dt) {
+data[n] = (short)(a * sin(2.0 * pi * f * t));
+}
+yy.write((char*)data, nnn * sizeof(short)); //데이터 적기
+
+}
+yy.close();
+
+return 0;
+}
