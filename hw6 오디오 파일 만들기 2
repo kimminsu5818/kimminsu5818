@@ -1,0 +1,76 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+float getLength(int eumpyo) {
+	float T=1.0;
+	if (eumpyo == 2) T = 2.0;
+	else if (eumpyo == 4) T = 1.0;
+	else if (eumpyo == 8) T = 0.5;
+	else if (eumpyo == 16) T = 0.25;
+	return T;
+}
+
+float getfrequency(char hh) {
+	float f;
+	if (hh == 'C') f = 261.63;
+	else if (hh == 'D') f = 293.66;
+	else if (hh == 'E') f = 329.63;
+	else if (hh == 'F') f = 349.23;
+	else if (hh == 'G') f = 392.00;
+	else if (hh == 'A') f = 440.00;
+	else f = 493.88;
+	return f;
+}
+
+float getAmplitude(int ss) {
+	float a;
+	a = ss * 1000;
+	return a;
+}
+int main() {
+	ifstream xx("my.wav", ios::binary | ios::in);
+	if (!xx) return 999;  // if the file is not found
+	char header[44];
+	xx.read(header, 44);
+	xx.close();
+	int* sampleRate = (int*)(header + 24);
+	cout << "   sampleRate = " << *sampleRate << endl;
+	short* n;   n = (short*)(header + 22);  cout << *n << endl; // numChannels
+	int* fs;   fs = (int*)(header + 24);  cout << *fs << endl; // sampleRate
+	int* b;   b = (int*)(header + 28);  cout << *b << endl;  //  byteRate
+	*n = 1;  // mono
+	// Sprint 3
+	
+	ifstream zz("piece.txt");
+	int eu,ss,j;
+	char hh;
+	zz >> j;
+	int N = fs[0] * 10; // number of samples for 1 second
+	short* data;
+	data = new short[N]; // allocate memory for 1 seconds mono
+
+	ofstream yy("my3.wav", ios::binary | ios::out);
+	if (!yy) return 666;
+	yy.write(header, 44 * sizeof(char));
+
+	const float pi = 3.141592;
+	float dt = 1. / fs[0], a = 10000.0, f, T;
+	int i = 0;
+	for (int i = 0; i < j; i++) {
+		zz >> eu >> hh >> ss;
+		f = getfrequency(hh);
+		a = getAmplitude(ss);
+		T = getLength(eu);
+		cout << "f= " << f << ", a= " << a << ", T= " << T << endl;
+		int nnn = fs[0] * T;
+		float t = 0.0;
+		for (int n = 0; n < nnn; n++, t += dt) {
+			data[n] = (short)(a * sin(2.0 * pi * f * t));
+		}
+		yy.write((char*)data, nnn * sizeof(short));
+	}
+	zz.close();
+	yy.close();
+	return 1;
+}
