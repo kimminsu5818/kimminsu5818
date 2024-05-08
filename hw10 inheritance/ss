@@ -1,5 +1,5 @@
-class tomas extends parent {
-  tomas(int i, int f) {
+class Bonobono2 extends parent {
+  Bonobono2(int i, int f) {
     super(random(width / 4, width - width / 4), random(height), 7*i); //x,y,d의 값 배정
     this.f=f;
     v = 4 + 3*i;
