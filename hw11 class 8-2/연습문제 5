@@ -1,0 +1,107 @@
+// 연습2: 새로운 public member data 를 destructor 에서 cout 해보라.
+
+// health2.h
+#pragma once
+#include <iostream>
+using namespace std;
+
+class CHealth {
+public:
+    // constructors
+    CHealth() { nCHealth++; age = 20; beat5min = temp5min = nullptr; };
+    CHealth(int a);
+
+    // destructor
+    ~CHealth();
+
+    // static member data
+    static int nCHealth;
+
+    // public member data
+    float height, cel, faren, beat, pressure;
+    float BMIvalue, healthAge;
+    float* beat5min, * temp5min;
+    int stepsPerDay;
+    float avgHeartRate;
+
+    // public member functions (methods)
+    void measure();
+    void measure(int);
+    int run5min();  // -1 emergency
+
+private:
+    // private member data
+    int age;
+    float weight;
+
+    // private member function
+    void cel2faren() { faren = cel * 9.0 / 5.0 + 32.0; }
+    void faren2cel();
+    void GetHealthAge() { healthAge = beat / pressure; }
+    void GetBMI();
+    void updateStepsPerDay(int steps) { stepsPerDay = steps; }
+    void updateAvgHeartRate(float heartRate) { avgHeartRate = heartRate; }
+};
+
+// health2.cpp
+#include <iostream>
+#include <cmath>  // for rand( )
+#include "health2.h"
+
+CHealth::CHealth(int a) { age = a; }
+CHealth::~CHealth() {
+    nCHealth--;
+    cout << "  count " << nCHealth << endl;
+    if (beat5min != nullptr) delete beat5min;
+    if (temp5min != nullptr) delete temp5min;
+    else cout << " no allocated memory \n";
+
+    cout << "stepsPerDay: " << stepsPerDay << ", avgHeartRate: " << avgHeartRate << endl;
+}
+
+int CHealth::nCHealth = 0;
+
+void CHealth::GetBMI() { BMIvalue = weight / height / height; }
+void CHealth::faren2cel() { cel = (faren - 32) * 5.0 / 9.0; }
+
+void CHealth::measure(int a) { age = a; measure(); }
+void CHealth::measure() {
+    cel = rand() % 10 + 30.0; cel2faren();  // private function
+    height = 1.6 + (rand() % 30) / 10.0;
+    weight = 50. + rand() % 30;
+    beat = 70 + rand() % 15;
+    pressure = 90. + rand() % 30;
+    GetBMI(); GetHealthAge();
+}
+
+int CHealth::run5min() {
+    int nn = 5 * 60;  // every seconds for 5minutes
+    if (beat5min == nullptr) beat5min = new float[nn];
+    if (temp5min == nullptr) temp5min = new float[nn];
+    for (int n = 0; n < nn; n++) {
+        beat5min[n] = 80 + rand() % 20;
+        temp5min[n] = 35 + rand() % 5;
+        if (temp5min[n] > 41 || beat5min[n] > 101) return -1;
+    }
+    return 1;
+}
+
+// Lab7_1s2.cpp
+#include <iostream>
+#include "health2.h"
+using namespace std;
+int main() {
+	cout << " class size " << sizeof(CHealth) << endl;
+
+	CHealth* students = new CHealth[5];
+	cout << " # of customers " << CHealth::nCHealth << "\n";
+	for (int i = 0; i < 3; i++) {
+		students[i].measure(20 + rand() % 4);
+		(students + i)->run5min();
+	}
+	cout << students[1].beat5min[30] << endl;
+
+	delete[] students;  // delete objects
+	getchar();
+	return 123;
+}
