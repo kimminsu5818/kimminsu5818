@@ -1,0 +1,28 @@
+// 연습: private member data 와 private member data 를 public member function 에서는 사용할 수 있음을 보이라.
+
+#include <iostream>
+using namespace std;
+
+class a {
+public:
+    float x = 100;
+    void showx() {
+        cout << "x " << x << endl;  // public member data x에 접근
+        cout << "y " << y << endl;  // private member data y에 접근
+        cout << "yy " << gety() << endl;  // private member data gety()를 통해 y 값 얻기
+    }
+    void sety(float z) { y = z; }  // private member data y에 값을 설정
+    float showy() { return y; }  // private member data y의 값을 반환
+private:
+    float y = 200;  // 초기값이 200인 private member data
+    float gety() { return y; }  // private member data y의 값을 반환하는 private member data
+};
+
+int main() {
+    a b;
+    b.showx();  // x, y, yy 출력: x 100, y 200, yy 200
+    b.sety(30);  // y 값을 30으로 설정
+    b.showx();  // 변경된 y 값을 출력: x 100, y 30, yy 30
+    cout << b.showy() << endl;  // 변경된 y 값 출력: 30
+}
+// 이 코드는 private member data y와 private member data gety()가 클래스 내부의 public member function에서 자유롭게 사용될 수 있음을 보여줍니다.
