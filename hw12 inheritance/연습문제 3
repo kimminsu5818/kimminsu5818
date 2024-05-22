@@ -1,0 +1,36 @@
+// B 의 member data ccc 를 추가하여, 초기화될 때, ii 의 10배가 되도록 하라.
+
+#include <iostream>
+using namespace std;
+
+class A {
+public:
+	A() : ii(10) {};
+	A(int x) : ii(x) {};
+	int ii;
+};
+
+class B : public A {
+public:
+	B() : A(8) {
+		A(88);
+		bbb = ii + 5;
+		ccc = ii * 10;
+	};
+
+	B(int x) : A(x) {
+		bbb = x;
+		ccc = ii * 10;
+	};
+
+	int bbb;
+	int ccc;
+};
+
+int main() {
+	B e, f(22);
+	cout << e.bbb << endl;
+	cout << e.ccc << endl;
+	cout << f.bbb << endl;
+	cout << f.ccc << endl;
+}
