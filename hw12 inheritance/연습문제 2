@@ -1,0 +1,57 @@
+// 소스.cpp
+// parent class operator 가 private, protected 인 경우를 실험해보라.
+
+#include <iostream>
+#include "over.h"
+using namespace std;
+int main() {
+    fruit a, b;
+    apple cc;
+    cout << a.show() << endl;
+    a * 10;  // 10% increase (400 --> 440)
+    cout << a.show() << endl;
+    b* (-10.0); // 10% decrease (400 --> 360)
+    cout << b.show() << endl;
+    // inherit operator overloading
+    cout << cc.show() << endl;
+    cc * 10;    // 10% increase (4000 --> 4400)
+    cout << cc.show() << endl;
+    cout << cc.redness << endl;
+    cc - 2;
+    cout << cc.redness << endl;
+}
+
+// over.h
+
+#pragma once
+
+class fruit {
+protected:
+    float price = 400;
+    int many = 1;
+public:
+    void operator*(float r); // public으로 선언하여 어디서든 사용 가능
+    float show();
+};
+
+class apple : public fruit {
+public:
+    int redness = 5;
+    void operator-(int dr);
+};
+
+
+// over.cpp
+#include "over.h"
+
+void fruit::operator*(float r) {
+    price *= (100 + r) / 100.0;
+}
+
+float fruit::show() {
+    return price * many;
+}
+
+void apple::operator-(int dr) {
+    redness += dr;
+}
