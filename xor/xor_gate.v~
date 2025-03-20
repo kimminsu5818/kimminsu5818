@@ -1,0 +1,19 @@
+// xor_gate.v
+module xor_gate (/*AUTOARG*/
+   // Outputs
+   y,
+   // Inputs
+   a, b
+   );
+   
+    input wire a, b;       // 입력 포트 선언
+    output wire y;         // 출력 포트 선언
+    wire not_b;
+    wire mux_out1, mux_out2;
+
+    not_gate n1 (.a(b), .y(not_b));                     // NOT 게이트 인스턴스화
+    mux2to1 m1 (.a(a), .b(not_b), .sel(b), .y(mux_out1)); // MUX 인스턴스화
+    mux2to1 m2 (.a(not_b), .b(a), .sel(a), .y(mux_out2)); // MUX 인스턴스화
+    
+    assign y = mux_out1 | mux_out2; // XOR 로직
+endmodule // xor_gate

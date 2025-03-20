@@ -1,0 +1,89 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+S_00000264b5c0d7e0 .scope module, "xor_gate_tb" "xor_gate_tb" 2 2;
+ .timescale 0 0;
+v00000264b5b5e840_0 .var "a", 0 0;
+v00000264b5b5e700_0 .var "b", 0 0;
+v00000264b5b5e3e0_0 .net "y", 0 0, L_00000264b5c068d0;  1 drivers
+S_00000264b5c0d970 .scope module, "uut" "xor_gate" 2 9, 3 2 0, S_00000264b5c0d7e0;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "y";
+    .port_info 1 /INPUT 1 "a";
+    .port_info 2 /INPUT 1 "b";
+L_00000264b5c068d0 .functor OR 1, L_00000264b5b5e020, L_00000264b5b5e660, C4<0>, C4<0>;
+v00000264b5b5d8f0_0 .net "a", 0 0, v00000264b5b5e840_0;  1 drivers
+v00000264b5b5d990_0 .net "b", 0 0, v00000264b5b5e700_0;  1 drivers
+v00000264b5b5da30_0 .net "mux_out1", 0 0, L_00000264b5b5e020;  1 drivers
+v00000264b5b5e980_0 .net "mux_out2", 0 0, L_00000264b5b5e660;  1 drivers
+v00000264b5b5dee0_0 .net "not_b", 0 0, L_00000264b5b152e0;  1 drivers
+v00000264b5b5e480_0 .net "y", 0 0, L_00000264b5c068d0;  alias, 1 drivers
+S_00000264b5b15be0 .scope module, "m1" "mux2to1" 3 15, 4 2 0, S_00000264b5c0d970;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "y";
+    .port_info 1 /INPUT 1 "a";
+    .port_info 2 /INPUT 1 "b";
+    .port_info 3 /INPUT 1 "sel";
+v00000264b5b06360_0 .net "a", 0 0, v00000264b5b5e840_0;  alias, 1 drivers
+v00000264b5c0db00_0 .net "b", 0 0, L_00000264b5b152e0;  alias, 1 drivers
+v00000264b5c0dba0_0 .net "sel", 0 0, v00000264b5b5e700_0;  alias, 1 drivers
+v00000264b5b15d70_0 .net "y", 0 0, L_00000264b5b5e020;  alias, 1 drivers
+L_00000264b5b5e020 .functor MUXZ 1, v00000264b5b5e840_0, L_00000264b5b152e0, v00000264b5b5e700_0, C4<>;
+S_00000264b5b15e10 .scope module, "m2" "mux2to1" 3 16, 4 2 0, S_00000264b5c0d970;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "y";
+    .port_info 1 /INPUT 1 "a";
+    .port_info 2 /INPUT 1 "b";
+    .port_info 3 /INPUT 1 "sel";
+v00000264b5b15fa0_0 .net "a", 0 0, L_00000264b5b152e0;  alias, 1 drivers
+v00000264b5c06050_0 .net "b", 0 0, v00000264b5b5e840_0;  alias, 1 drivers
+v00000264b5c060f0_0 .net "sel", 0 0, v00000264b5b5e840_0;  alias, 1 drivers
+v00000264b5c06190_0 .net "y", 0 0, L_00000264b5b5e660;  alias, 1 drivers
+L_00000264b5b5e660 .functor MUXZ 1, L_00000264b5b152e0, v00000264b5b5e840_0, v00000264b5b5e840_0, C4<>;
+S_00000264b5c06230 .scope module, "n1" "not_gate" 3 14, 4 15 0, S_00000264b5c0d970;
+ .timescale 0 0;
+    .port_info 0 /OUTPUT 1 "y";
+    .port_info 1 /INPUT 1 "a";
+L_00000264b5b152e0 .functor NOT 1, v00000264b5b5e700_0, C4<0>, C4<0>, C4<0>;
+v00000264b5c063c0_0 .net "a", 0 0, v00000264b5b5e700_0;  alias, 1 drivers
+v00000264b5b5d850_0 .net "y", 0 0, L_00000264b5b152e0;  alias, 1 drivers
+    .scope S_00000264b5c0d7e0;
+T_0 ;
+    %vpi_call 2 17 "$dumpfile", "xor_gate_tb.vcd" {0 0 0};
+    %vpi_call 2 18 "$dumpvars", 32'sb00000000000000000000000000000000, S_00000264b5c0d7e0 {0 0 0};
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v00000264b5b5e840_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v00000264b5b5e700_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v00000264b5b5e840_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v00000264b5b5e700_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v00000264b5b5e840_0, 0, 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v00000264b5b5e700_0, 0, 1;
+    %delay 10, 0;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v00000264b5b5e840_0, 0, 1;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v00000264b5b5e700_0, 0, 1;
+    %delay 10, 0;
+    %vpi_call 2 26 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 5;
+    "N/A";
+    "<interactive>";
+    "xor_gate_tb.v";
+    "xor_gate.v";
+    "mux_not_gate.v";
